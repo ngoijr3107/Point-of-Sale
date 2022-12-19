@@ -82,8 +82,12 @@ class ProductDataTable extends DataTable
                 ->title('Quantity')
                 ->className('text-center align-middle'),
 
+                Column::computed('expiry_date')
+                ->title('Expire date')
+                ->className('text-center align-middle'),
+
             Column::make('category.category_name')
-                ->title('Category')
+                ->title('Batch no.')
                 ->className('text-center align-middle'),
 
             Column::computed('action')
