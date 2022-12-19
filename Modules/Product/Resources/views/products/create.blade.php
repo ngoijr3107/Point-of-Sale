@@ -119,6 +119,12 @@
                                         <input type="text" class="form-control" name="product_unit" value="{{ old('product_unit') }}" required>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="expiry_date">Expire Date <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="expiry_date" value="{{ old('expiry_date') }}" required>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-group">
