@@ -10,10 +10,10 @@
         * {
             font-size: 12px;
             line-height: 18px;
-            font-family: 'Ubuntu', sans-serif;
+            /* font-family: 'Ubuntu', sans-serif; */
         }
         h2 {
-            font-size: 16px;
+            font-size: 15px;
         }
         td,
         th,
@@ -67,7 +67,7 @@
         <p>
             Date: {{ \Carbon\Carbon::parse($sale->date)->format('d M, Y') }}<br>
             Reference: {{ $sale->reference }}<br>
-            Name: {{ $sale->customer_name }}
+            Customer: {{ $sale->customer_name }}
         </p>
         <table class="table-data">
             <tbody>
@@ -113,6 +113,9 @@
                     </td>
                     <td class="centered" style="padding: 5px;">
                         Amount: {{ format_currency($sale->paid_amount) }}
+                    </td>
+                    <td class="centered" style="padding: 5px;">
+                        Due Amount: {{ format_currency($sale->due_amount) }}
                     </td>
                 </tr>
                 <tr style="border-bottom: 0;">

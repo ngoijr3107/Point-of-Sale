@@ -31,8 +31,10 @@ class CustomersController extends Controller
 
         $request->validate([
             'customer_name'  => 'required|string|max:255',
-            'customer_phone' => 'required|max:255',
-            'customer_email' => 'required|email|max:255',
+            'customer_phone' => 'max:255',
+            'customer_email' => 'email|max:255',
+            'customer_tin'   => 'max:255',
+            'customer_vrn'   => 'max:255',
             'city'           => 'required|string|max:255',
             'country'        => 'required|string|max:255',
             'address'        => 'required|string|max:500',
@@ -42,6 +44,8 @@ class CustomersController extends Controller
             'customer_name'  => $request->customer_name,
             'customer_phone' => $request->customer_phone,
             'customer_email' => $request->customer_email,
+            'customer_tin'   => $request->customer_tin,
+            'customer_vrn'   => $request->customer_vrn,
             'city'           => $request->city,
             'country'        => $request->country,
             'address'        => $request->address
@@ -72,8 +76,10 @@ class CustomersController extends Controller
 
         $request->validate([
             'customer_name'  => 'required|string|max:255',
-            'customer_phone' => 'required|max:255',
-            'customer_email' => 'required|email|max:255',
+            'customer_phone' => 'max:255',
+            'customer_email' => 'email|max:255',
+            'customer_tin'   => 'max:255',
+            'customer_vrn'   => 'max:255',
             'city'           => 'required|string|max:255',
             'country'        => 'required|string|max:255',
             'address'        => 'required|string|max:500',
@@ -83,6 +89,8 @@ class CustomersController extends Controller
             'customer_name'  => $request->customer_name,
             'customer_phone' => $request->customer_phone,
             'customer_email' => $request->customer_email,
+            'customer_tin'   => $request->customer_tin,
+            'customer_vrn'   => $request->customer_vrn,
             'city'           => $request->city,
             'country'        => $request->country,
             'address'        => $request->address

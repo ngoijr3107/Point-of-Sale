@@ -22,7 +22,7 @@ class UpdateProductRequest extends FormRequest
             'product_unit' => ['required', 'string', 'max:255'],
             'expiry_date' => ['required', 'string', 'max:255'],
             'product_quantity' => ['required', 'integer', 'min:1'],
-            'product_cost' => ['required', 'numeric', 'max:2147483647'],
+            'product_cost' => ['numeric', 'max:2147483647'],
             'product_price' => ['required', 'numeric', 'max:2147483647'],
             'product_stock_alert' => ['required', 'integer', 'min:0'],
             'product_order_tax' => ['nullable', 'integer', 'min:0', 'max:100'],
