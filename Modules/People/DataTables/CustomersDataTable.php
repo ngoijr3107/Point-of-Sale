@@ -57,6 +57,12 @@ class CustomersDataTable extends DataTable
             Column::make('customer_phone')
                 ->className('text-center align-middle'),
 
+            Column::make('customer_tin')
+                ->className('text-center align-middle'),
+
+            Column::make('customer_vrn')
+                ->className('text-center align-middle'),
+
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

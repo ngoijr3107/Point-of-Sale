@@ -27,6 +27,14 @@
                                     <td>{{ $customer->customer_email }}</td>
                                 </tr>
                                 <tr>
+                                    <th>TIN</th>
+                                    <td>{{ $customer->customer_tin }}</td>
+                                </tr>
+                                <tr>
+                                    <th>VRN</th>
+                                    <td>{{ $customer->customer_vrn }}</td>
+                                </tr>
+                                <tr>
                                     <th>Customer Phone</th>
                                     <td>{{ $customer->customer_phone }}</td>
                                 </tr>
