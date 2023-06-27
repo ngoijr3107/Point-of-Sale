@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +27,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/payment-flow/chart-data', 'HomeController@paymentChart')
         ->name('payment-flow.chart');
+        // routes/web.php
+
+Route::get('/export-cash-flow-overview', [HomeController::class, 'exportCashFlowOverview'])
+->name('exportCashFlowOverview');
+
 });
 
