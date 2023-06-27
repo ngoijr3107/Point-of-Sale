@@ -47,7 +47,9 @@ class HomeController extends Controller
         }
 
         $export = new CashFlowOverviewExport($months);
-        return Excel::download($export, 'cash_flow_overview.xlsx');
+        $filename = 'sale_overview_' . date('Y-m-d') . '.xlsx';
+        return Excel::download($export, $filename);
+
     }
 
 
