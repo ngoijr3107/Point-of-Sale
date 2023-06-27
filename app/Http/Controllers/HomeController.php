@@ -87,16 +87,16 @@ class HomeController extends Controller
         $currentMonthSales = Sale::where('status', 'Completed')->whereMonth('date', date('m'))
                 ->whereYear('date', date('Y'))
                 ->sum('total_amount') / 100;
-        $currentMonthPurchases = Purchase::where('status', 'Completed')->whereMonth('date', date('m'))
-                ->whereYear('date', date('Y'))
-                ->sum('total_amount') / 100;
+        // $currentMonthPurchases = Purchase::where('status', 'Completed')->whereMonth('date', date('m'))
+        //         ->whereYear('date', date('Y'))
+        //         ->sum('total_amount') / 100;
         $currentMonthExpenses = Expense::whereMonth('date', date('m'))
                 ->whereYear('date', date('Y'))
                 ->sum('amount') / 100;
 
         return response()->json([
             'sales'     => $currentMonthSales,
-            'purchases' => $currentMonthPurchases,
+            // 'purchases' => $currentMonthPurchases,
             'expenses'  => $currentMonthExpenses
         ]);
     }
@@ -111,14 +111,19 @@ class HomeController extends Controller
     }
 
 
-    public function salesPurchasesChart() {
+    public function salesPurchasesChart()
+    {
         abort_if(!request()->ajax(), 404);
 
         $sales = $this->salesChartData();
-        $purchases = $this->purchasesChartData();
+        // $purchases = $this->purchasesChartData();
 
-        return response()->json(['sales' => $sales, 'purchases' => $purchases]);
+        return response()->json([
+            'sales' => $sales,
+            // 'purchases' => $purchases,
+    ]);
     }
+
 
 
     public function paymentChart() {
