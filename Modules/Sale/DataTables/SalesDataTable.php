@@ -12,7 +12,8 @@ use Yajra\DataTables\Services\DataTable;
 class SalesDataTable extends DataTable
 {
 
-    public function dataTable($query) {
+    public function dataTable($query)
+    {
         return datatables()
             ->eloquent($query)
             ->addColumn('total_amount', function ($data) {
@@ -35,11 +36,13 @@ class SalesDataTable extends DataTable
             });
     }
 
-    public function query(Sale $model) {
+    public function query(Sale $model)
+    {
         return $model->newQuery();
     }
 
-    public function html() {
+    public function html()
+    {
         return $this->builder()
             ->setTableId('sales-table')
             ->columns($this->getColumns())
@@ -60,17 +63,21 @@ class SalesDataTable extends DataTable
             );
     }
 
-    protected function getColumns() {
+    protected function getColumns()
+    {
         return [
             Column::make('reference')
                 ->className('text-center align-middle'),
+
+            Column::make('date')
+                ->className('text-center align-left'),
 
             Column::make('customer_name')
                 ->title('Customer')
                 ->className('text-center align-middle'),
 
-            Column::computed('status')
-                ->className('text-center align-middle'),
+            // Column::computed('status')
+            //     ->className('text-center align-middle'),
 
             Column::computed('total_amount')
                 ->className('text-center align-middle'),
@@ -94,7 +101,8 @@ class SalesDataTable extends DataTable
         ];
     }
 
-    protected function filename() {
+    protected function filename()
+    {
         return 'Sales_' . date('YmdHis');
     }
 }
