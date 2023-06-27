@@ -82,7 +82,7 @@ class SalesReturnController extends Controller
                 if ($request->status == 'Completed') {
                     $product = Product::findOrFail($cart_item->id);
                     $product->update([
-                        'product_quantity' => $product->product_quantity + $cart_item->qty
+                        'product_quantity' => $product->product_quantity - $cart_item->qty
                     ]);
                 }
             }
@@ -206,7 +206,7 @@ class SalesReturnController extends Controller
                 if ($request->status == 'Completed') {
                     $product = Product::findOrFail($cart_item->id);
                     $product->update([
-                        'product_quantity' => $product->product_quantity + $cart_item->qty
+                        'product_quantity' => $product->product_quantity - $cart_item->qty
                     ]);
                 }
             }
