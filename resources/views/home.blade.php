@@ -11,6 +11,12 @@
 @section('content')
     <div class="container-fluid">
         @can('show_total_stats')
+        {{-- <div class="row">
+            @foreach (Modules\Product\Entities\Product::where('product_quantity', '<=', 'product_stock_alert')->get() as $item)
+                <li style="color: red;"> <strong> {{ $item->product_code }} product is running out of stock </strong></li>
+            @endforeach
+        </div> --}}
+
             <div class="row">
                 <div class="col-md-6 col-lg-3">
                     <div class="card border-0">
@@ -72,13 +78,43 @@
             </div>
         @endcan
 
-        @can('show_weekly_sales_purchases|show_month_overview')
+        {{-- @can('show_weekly_sales_purchases|show_month_overview')
             <div class="row mb-4">
                 @can('show_weekly_sales_purchases')
                     <div class="col-lg-6">
                         <div class="card border-0 shadow-sm h-100">
                             <div class="card-header">
                                 Sales & Purchases of Last 7 Days
+                            </div>
+                            <div class="card-body">
+                                <canvas id="salesPurchasesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                @endcan
+                @can('show_month_overview')
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header">
+                                Overview of {{ now()->format('F, Y') }}
+                            </div>
+                            <div class="card-body d-flex justify-content-center">
+                                <div class="chart-container" style="position: relative; height:auto; width:280px">
+                                    <canvas id="currentMonthChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endcan
+            </div>
+        @endcan --}}
+
+            <div class="row mb-4">
+                @can('show_weekly_sales_purchases')
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header">
+                                Sales trend of the Last 7 Days
                                 {{-- Overview of Today sales --}}
                             </div>
                             <div class="card-body">
@@ -123,7 +159,7 @@
                     </div>
                 @endcan
             </div>
-        @endcan
+
 
         @can('show_monthly_cashflow')
             {{-- <div class="row">
@@ -143,7 +179,7 @@
                 <div class="col-lg-12">
                     <div class="card border-0 shadow-sm">
                         <div class="card-header">
-                            Yearly Cash Flow Overview
+                            Overview of {{ now()->format('Y') }}
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
