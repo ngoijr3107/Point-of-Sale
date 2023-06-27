@@ -12,22 +12,58 @@ use Modules\Purchase\Entities\PurchasePayment;
 use Modules\PurchasesReturn\Entities\PurchaseReturn;
 use Modules\PurchasesReturn\Entities\PurchaseReturnPayment;
 use Modules\Sale\Entities\Sale;
+use Modules\Sale\Entities\SaleDetails;
 use Modules\Sale\Entities\SalePayment;
 use Modules\SalesReturn\Entities\SaleReturn;
 use Modules\SalesReturn\Entities\SaleReturnPayment;
+use App\Exports\CashFlowOverviewExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class HomeController extends Controller
 {
+    public function exportCashFlowOverview(Request $request)
+    {
+        $currentYear = date('Y');
+        $months = [];
+
+        for ($month = 1; $month <= 12; $month++) {
+            $monthSales = SaleDetails::whereYear('created_at', '=', $currentYear)
+                ->whereMonth('created_at', '=', $month)
+                ->get();
+
+            $monthTotalQuantity = intval($monthSales->sum('quantity'));
+            $monthSubTotal = intval($monthSales->sum('sub_total'));
+            $monthExpenses = intval(Expense::whereYear('created_at', '=', $currentYear)
+                ->whereMonth('created_at', '=', $month)
+                ->sum('amount'));
+
+            $months[] = [
+                'month' => date('F', mktime(0, 0, 0, $month, 1)),
+                'totalQuantity' => $monthTotalQuantity,
+                'subTotal' => $monthSubTotal,
+                'expenses' => $monthExpenses,
+            ];
+        }
+
+        $export = new CashFlowOverviewExport($months);
+        return Excel::download($export, 'cash_flow_overview.xlsx');
+    }
+
+
+
 
     public function index() {
         $sales = Sale::completed()->sum('total_amount');
         $sale_returns = SaleReturn::completed()->sum('total_amount');
         $purchase_returns = PurchaseReturn::completed()->sum('total_amount');
+        $unpaid = Sale::completed('payment_status', '=', 'Unpaid')->sum('due_amount');
+        $expenses = Expense::sum('amount');
         $product_costs = 0;
 
         foreach (Sale::completed()->with('saleDetails')->get() as $sale) {
             foreach ($sale->saleDetails??[] as $saleDetail) {
-                $product_costs += $saleDetail->product->product_cost;
+                //$product_costs += $saleDetail->product->product_cost;
             }
         }
 
@@ -38,7 +74,9 @@ class HomeController extends Controller
             'revenue'          => $revenue,
             'sale_returns'     => $sale_returns / 100,
             'purchase_returns' => $purchase_returns / 100,
-            'profit'           => $profit
+            'profit'           => $profit,
+            'unpaid' => $unpaid / 100,
+            'expenses' => $expenses / 100,
         ]);
     }
 
@@ -61,6 +99,15 @@ class HomeController extends Controller
             'purchases' => $currentMonthPurchases,
             'expenses'  => $currentMonthExpenses
         ]);
+    }
+
+    public function todaySalesOverview() {
+        abort_if(!request()->ajax(), 404);
+
+        $sale_details = SaleDetails::get('created_at', 'd-y-m');
+
+        // return response()->json(['sale_details' => $sale_details]);
+        return view('home', compact(['sale_details' => $sale_details]));
     }
 
 
