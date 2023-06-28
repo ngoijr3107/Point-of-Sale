@@ -191,6 +191,7 @@
                                         <th>Month</th>
                                         <th>Quantity</th>
                                         <th>Total Amount</th>
+                                        <th>Due Amount</th>
                                         <th>Expenses</th>
                                     </tr>
                                 </thead>
@@ -206,6 +207,9 @@
 
                                             $monthTotalQuantity = $monthSales->sum('quantity');
                                             $monthSubTotal = $monthSales->sum('sub_total');
+                                            $monthUnpaid = Modules\Sale\Entities\Sale::whereYear('created_at', '=', $currentYear)
+                                                ->whereMonth('created_at', '=', $month)
+                                                ->sum('due_amount');
                                             $monthExpenses = Modules\Expense\Entities\Expense::whereYear('created_at', '=', $currentYear)
                                                 ->whereMonth('created_at', '=', $month)
                                                 ->sum('amount');
@@ -214,6 +218,7 @@
                                                 'totalQuantity' => $monthTotalQuantity,
                                                 'subTotal' => $monthSubTotal,
                                                 'expenses' => $monthExpenses / 100,
+                                                'dueAmount' => $monthUnpaid / 100,
                                             ];
                                         }
                                     @endphp
@@ -223,6 +228,7 @@
                                             <td>{{ date('F', mktime(0, 0, 0, $month, 1)) }}</td>
                                             <td>{{ $totals['totalQuantity'] }}</td>
                                             <td>{{ format_currency($totals['subTotal']) }}</td>
+                                            <td>{{ format_currency($totals['dueAmount']) }}</td>
                                             <td>{{ format_currency($totals['expenses']) }}</td>
                                         </tr>
                                     @endforeach
