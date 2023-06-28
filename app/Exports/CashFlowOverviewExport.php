@@ -25,6 +25,7 @@ class CashFlowOverviewExport implements FromCollection, WithHeadings
             'Month',
             'Quantity',
             'Total Amount',
+            'Due Amount',
             'Expenses',
         ];
     }
