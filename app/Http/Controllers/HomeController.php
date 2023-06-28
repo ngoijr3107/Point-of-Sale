@@ -34,6 +34,9 @@ class HomeController extends Controller
 
             $monthTotalQuantity = intval($monthSales->sum('quantity'));
             $monthSubTotal = intval($monthSales->sum('sub_total'));
+            $monthUnpaid = intval(Sale::whereYear('created_at', '=', $currentYear)
+                                                ->whereMonth('created_at', '=', $month)
+                                                ->sum('due_amount'));
             $monthExpenses = intval(Expense::whereYear('created_at', '=', $currentYear)
                 ->whereMonth('created_at', '=', $month)
                 ->sum('amount'));
@@ -42,6 +45,7 @@ class HomeController extends Controller
                 'month' => date('F', mktime(0, 0, 0, $month, 1)),
                 'totalQuantity' => $monthTotalQuantity,
                 'subTotal' => $monthSubTotal,
+                'dueAmount' => $monthUnpaid,
                 'expenses' => $monthExpenses,
             ];
         }
