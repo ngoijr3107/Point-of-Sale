@@ -37,6 +37,8 @@
                             <div>{{ $customer->address }}</div>
                             {{-- <div>Email: {{ $customer->customer_email }}</div> --}}
                             <div>Phone: {{ $customer->customer_phone }}</div>
+                            <div>TIN: {{ $customer->customer_tin }}</div>
+                            <div>Address: {{ $customer->address }}</div>
                         </div>
 
                         <div class="col-xs-4 mb-3 mb-md-0">
