@@ -1,6 +1,6 @@
 # Local Installation
 
-- run `` git clone https://github.com/FahimAnzamDip/triangle-pos.git ``
+- run `` git clone https://github.com/ngoijr3107/Point-of-Sale.git ``
 - run ``composer update `` 
 - run `` npm install ``
 - run ``npm run dev``
@@ -17,7 +17,7 @@
 # Admin Credentials
 > Email: admin@test.com || Password: 12345678
 
-## Triangle POS Features
+## POS Features
 
 - **Products Management & Barcode Printing**
 - **Stock Management**
