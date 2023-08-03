@@ -32,7 +32,7 @@ class CustomersController extends Controller
         $request->validate([
             'customer_name'  => 'required|string|max:255',
             'customer_phone' => 'max:255',
-            'customer_email' => 'email|max:255',
+            'customer_email' => 'nullable|email|max:255',
             'customer_tin'   => 'max:255',
             'customer_vrn'   => 'max:255',
             'city'           => 'required|string|max:255',
@@ -77,7 +77,7 @@ class CustomersController extends Controller
         $request->validate([
             'customer_name'  => 'required|string|max:255',
             'customer_phone' => 'max:255',
-            'customer_email' => 'email|max:255',
+            'customer_email' => 'nullable|email|max:255',
             'customer_tin'   => 'max:255',
             'customer_vrn'   => 'max:255',
             'city'           => 'required|string|max:255',
