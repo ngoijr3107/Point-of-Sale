@@ -212,7 +212,7 @@
 @can('access_customers|access_suppliers')
     <li class="c-sidebar-nav-item c-sidebar-nav-dropdown {{ request()->routeIs('customers.*') || request()->routeIs('suppliers.*') ? 'c-show' : '' }}">
         <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-            <i class="c-sidebar-nav-icon bi bi-people" style="line-height: 1;"></i> People
+            <i class="c-sidebar-nav-icon bi bi-people" style="line-height: 1;"></i> Parties
         </a>
         <ul class="c-sidebar-nav-dropdown-items">
             @can('access_customers')
