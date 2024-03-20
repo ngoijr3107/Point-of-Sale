@@ -2,7 +2,7 @@
     <div class="c-sidebar-brand d-md-down-none">
         <a href="{{ route('home') }}">
             <img class="c-sidebar-brand-full" src="{{ asset('images/logo.png') }}" alt="Site Logo" width="200">
-            <img class="c-sidebar-brand-minimized" src="{{ asset('images/logo.png') }}" alt="Site Logo" width="100">
+            <img class="c-sidebar-brand-minimized" src="{{ asset('images/favicon.png') }}" alt="Site Logo" width="50">
         </a>
     </div>
     <ul class="c-sidebar-nav">
