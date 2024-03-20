@@ -24,14 +24,14 @@ $(document).ready(function () {
         new Chart(e, {
             type: "doughnut",
             data: {
-                // labels: ["Sales", "Purchases", "Expenses"],
+                labels: ["Sales", "Purchases", "Expenses"],
                 labels: ["Sales", "Expenses"],
                 datasets: [
                     {
-                        // data: [a.sales, a.purchases, a.expenses],
+                        data: [a.sales, a.purchases, a.expenses],
                         data: [a.sales, a.expenses],
-                        // backgroundColor: ["#F59E0B", "#0284C7", "#EF4444"],
-                        // hoverBackgroundColor: ["#F59E0B", "#0284C7", "#EF4444"],
+                        backgroundColor: ["#F59E0B", "#0284C7", "#EF4444"],
+                        hoverBackgroundColor: ["#F59E0B", "#0284C7", "#EF4444"],
                         backgroundColor: ["#4BB543 ", "#EF4444"],
                         hoverBackgroundColor: ["#4BB543 ", "#EF4444"],
                     },
