@@ -69,7 +69,7 @@ class HomeController extends Controller
 
         foreach (Sale::completed()->with('saleDetails')->get() as $sale) {
             foreach ($sale->saleDetails??[] as $saleDetail) {
-                //$product_costs += $saleDetail->product->product_cost;
+                $product_costs += $saleDetail->product->product_cost;
             }
         }
 
@@ -93,16 +93,16 @@ class HomeController extends Controller
         $currentMonthSales = Sale::where('status', 'Completed')->whereMonth('date', date('m'))
                 ->whereYear('date', date('Y'))
                 ->sum('total_amount') / 100;
-        // $currentMonthPurchases = Purchase::where('status', 'Completed')->whereMonth('date', date('m'))
-        //         ->whereYear('date', date('Y'))
-        //         ->sum('total_amount') / 100;
+        $currentMonthPurchases = Purchase::where('status', 'Completed')->whereMonth('date', date('m'))
+                ->whereYear('date', date('Y'))
+                ->sum('total_amount') / 100;
         $currentMonthExpenses = Expense::whereMonth('date', date('m'))
                 ->whereYear('date', date('Y'))
                 ->sum('amount') / 100;
 
         return response()->json([
             'sales'     => $currentMonthSales,
-            // 'purchases' => $currentMonthPurchases,
+            'purchases' => $currentMonthPurchases,
             'expenses'  => $currentMonthExpenses
         ]);
     }
@@ -112,7 +112,7 @@ class HomeController extends Controller
 
         $sale_details = SaleDetails::get('created_at', 'd-y-m');
 
-        // return response()->json(['sale_details' => $sale_details]);
+        return response()->json(['sale_details' => $sale_details]);
         return view('home', compact(['sale_details' => $sale_details]));
     }
 
@@ -122,11 +122,11 @@ class HomeController extends Controller
         abort_if(!request()->ajax(), 404);
 
         $sales = $this->salesChartData();
-        // $purchases = $this->purchasesChartData();
+        $purchases = $this->purchasesChartData();
 
         return response()->json([
             'sales' => $sales,
-            // 'purchases' => $purchases,
+            'purchases' => $purchases,
     ]);
     }
 
