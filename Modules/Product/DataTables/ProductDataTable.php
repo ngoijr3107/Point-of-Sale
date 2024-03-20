@@ -87,7 +87,7 @@ class ProductDataTable extends DataTable
                 ->className('text-center align-middle'),
 
             Column::make('category.category_name')
-                ->title('Batch no.')
+                ->title('Category')
                 ->className('text-center align-middle'),
 
             Column::computed('action')
