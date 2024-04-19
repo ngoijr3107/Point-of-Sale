@@ -20,12 +20,12 @@ class CreatePurchaseDetailsTable extends Migration
             $table->string('product_name');
             $table->string('product_code');
             $table->integer('quantity');
-            $table->integer('price');
-            $table->integer('unit_price');
-            $table->integer('sub_total');
-            $table->integer('product_discount_amount');
+            $table->bigInteger('price');
+            $table->bigInteger('unit_price');
+            $table->bigInteger('sub_total');
+            $table->bigInteger('product_discount_amount');
             $table->string('product_discount_type')->default('fixed');
-            $table->integer('product_tax_amount');
+            $table->bigInteger('product_tax_amount');
             $table->foreign('purchase_id')->references('id')
                 ->on('purchases')->cascadeOnDelete();
             $table->foreign('product_id')->references('id')
