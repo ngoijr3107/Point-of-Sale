@@ -8,7 +8,7 @@
     <title>Login | {{ config('app.name') }}</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('images/logo_web.png') }}">
+    <link rel="icon" href="{{ asset('images/favicon.png') }}">
     <!-- CoreUI CSS -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}" crossorigin="anonymous">
     <!-- Bootstrap Icons -->
@@ -17,11 +17,11 @@
 
 <body class="c-app flex-row align-items-center">
 <div class="container">
-    <div class="row mb-3">
+    {{-- <div class="row mb-3">
         <div class="col-12 d-flex justify-content-center">
-            <img width="100" src="{{ asset('images/logo_web.png') }}" alt="Logo">
+            <img width="200" src="{{ asset('images/logo.png') }}" alt="Logo">
         </div>
-    </div>
+    </div> --}}
     <div class="row justify-content-center">
         <div class="{{ Route::has('register') ? 'col-md-8' : 'col-md-5' }}">
             @if(Session::has('account_deactivated'))
@@ -31,11 +31,16 @@
             @endif
             <div class="card-group">
                 <div class="card p-4 border-0 shadow-sm">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <img width="200" src="{{ asset('images/logo.png') }}" alt="Logo">
+                        </div>
+                    </div>
                     <div class="card-body">
                         <form method="post" action="{{ url('/login') }}">
                             @csrf
-                            <h1>Login</h1>
-                            <p class="text-muted">Sign In to your account</p>
+                            <h3 class="text-center">Welcome Back</h3>
+                            <p class="text-muted text-center">Sign In to your account</p>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
