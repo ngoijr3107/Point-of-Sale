@@ -1,68 +1,75 @@
+/******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+/*!**************************************!*\
+  !*** ./resources/js/chart-config.js ***!
+  \**************************************/
 $(document).ready(function () {
-    var a = document.getElementById("salesPurchasesChart");
-    $.get("/sales-purchases/chart-data", function (e) {
-        new Chart(a, {
-            type: "line",
-            data: {
-                labels: e.sales.original.days,
-                datasets: [
-                    {
-                        label: "Sales",
-                        data: e.sales.original.data,
-                        backgroundColor: ["#6366F1"],
-                        borderColor: ["#6366F1"],
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: { scales: { y: { beginAtZero: true } } },
-        });
+  var salesPurchasesBar = document.getElementById('salesPurchasesChart');
+  $.get('/sales-purchases/chart-data', function (response) {
+    var salesPurchasesChart = new Chart(salesPurchasesBar, {
+      type: 'bar',
+      data: {
+        labels: response.sales.original.days,
+        datasets: [{
+          label: 'Sales',
+          data: response.sales.original.data,
+          backgroundColor: ['#5CA98D'],
+          borderColor: ['#5CA98D'],
+          borderWidth: 1
+        }, {
+          label: 'Purchases',
+          data: response.purchases.original.data,
+          backgroundColor: ['#1F3665'],
+          borderColor: ['#1F3665'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
     });
-
-    var e = document.getElementById("currentMonthChart");
-    $.get("/current-month/chart-data", function (a) {
-        new Chart(e, {
-            type: "doughnut",
-            data: {
-                labels: ["Sales", "Purchases", "Expenses"],
-                labels: ["Sales", "Expenses"],
-                datasets: [
-                    {
-                        data: [a.sales, a.purchases, a.expenses],
-                        data: [a.sales, a.expenses],
-                        backgroundColor: ["#F59E0B", "#0284C7", "#EF4444"],
-                        hoverBackgroundColor: ["#F59E0B", "#0284C7", "#EF4444"],
-                        backgroundColor: ["#4BB543 ", "#EF4444"],
-                        hoverBackgroundColor: ["#4BB543 ", "#EF4444"],
-                    },
-                ],
-            },
-        });
+  });
+  var overviewChart = document.getElementById('currentMonthChart');
+  $.get('/current-month/chart-data', function (response) {
+    var currentMonthChart = new Chart(overviewChart, {
+      type: 'doughnut',
+      data: {
+        labels: ['Sales', 'Purchases', 'Expenses'],
+        datasets: [{
+          data: [response.sales, response.purchases, response.expenses],
+          backgroundColor: ['#5CA98D', '#1F3665', '#EF4444'],
+          hoverBackgroundColor: ['#5CA98D', '#1F3665', '#EF4444']
+        }]
+      }
     });
-    var t = document.getElementById("paymentChart");
-    $.get("/payment-flow/chart-data", function (a) {
-        console.log(a),
-            new Chart(t, {
-                type: "line",
-                data: {
-                    labels: a.months,
-                    datasets: [
-                        {
-                            label: "Payment Sent",
-                            data: a.payment_sent,
-                            fill: !1,
-                            borderColor: "#EA580C",
-                            tension: 0,
-                        },
-                        {
-                            label: "Payment Received",
-                            data: a.payment_received,
-                            fill: !1,
-                            borderColor: "#2563EB",
-                            tension: 0,
-                        },
-                    ],
-                },
-            });
+  });
+  var paymentChart = document.getElementById('paymentChart');
+  $.get('/payment-flow/chart-data', function (response) {
+    console.log(response);
+    var cashflowChart = new Chart(paymentChart, {
+      type: 'bar',
+      data: {
+        labels: response.months,
+        datasets: [{
+          label: 'Payment Sent',
+          data: response.payment_sent,
+          backgroundColor: ['#EF4444'],
+          borderColor: ['#EF4444'],
+          borderWidth: 1
+        }, {
+          label: 'Payment Received',
+          data: response.payment_received,
+          backgroundColor: ['#5CA98D'],
+          borderColor: ['#5CA98D'],
+          borderWidth: 1
+        }]
+      }
     });
+  });
 });
+/******/ })()
+;
