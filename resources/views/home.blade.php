@@ -12,6 +12,15 @@
     <div class="container-fluid">
         @can('show_total_stats')
             <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Hi, {{ Auth()->user()->name }} 👋</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6 col-lg-3">
                     <div class="card border-0">
                         <div class="card-body p-0 d-flex align-items-center shadow-sm">
@@ -72,68 +81,16 @@
             </div>
         @endcan
 
-        {{-- @can('show_weekly_sales_purchases|show_month_overview')
-            <div class="row mb-4">
-                @can('show_weekly_sales_purchases')
-                    <div class="col-lg-6">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-header">
-                                Sales & Purchases of Last 7 Days
-                            </div>
-                            <div class="card-body">
-                                <canvas id="salesPurchasesChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                @endcan
-                @can('show_month_overview')
-                    <div class="col-lg-6">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-header">
-                                Overview of {{ now()->format('F, Y') }}
-                            </div>
-                            <div class="card-body d-flex justify-content-center">
-                                <div class="chart-container" style="position: relative; height:auto; width:280px">
-                                    <canvas id="currentMonthChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endcan
-            </div>
-        @endcan --}}
-
         <div class="row mb-4">
             @can('show_weekly_sales_purchases')
                 <div class="col-lg-6">
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-header">
-                            Sales trend of the Last 7 Days
+                            Sales & Purchases of the Last 7 Days
                             {{-- Overview of Today sales --}}
                         </div>
                         <div class="card-body">
                             <canvas id="salesPurchasesChart"></canvas>
-                            {{-- <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (Modules\Sale\Entities\SaleDetails::whereDate('created_at', '=', date('Y-m-d'))->get() as $item)
-                                            <tr>
-                                                <td>{{ $item->product_name }}</td>
-                                                <td>{{ $item->quantity }}</td>
-                                                <td>{{ $item->sub_total }}</td>
-                                                <td>{{ $item->created_at->format('Y-m-d') }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-
-                                </table> --}}
                         </div>
                     </div>
                 </div>
@@ -154,6 +111,76 @@
             @endcan
         </div>
 
+        <div class="row mb-4">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header">
+                        Top products in {{ now()->format('F, Y') }}
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Total Quantity</th>
+                                    <th>Total Sales</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Modules\Sale\Entities\SaleDetails::latest()->paginate(5) as $item)
+                                    <tr>
+                                        <td>{{ $item->product_name }}</td>
+                                        <td>{{ $item->quantity }}</td>
+                                        <td>{{ format_currency($item->sub_total) }}</td>
+                                        <td>{{ $item->created_at->format('Y-m-d') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header">
+                        Recent Sales
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Status</th>
+                                    <th>Total Sales</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Modules\Sale\Entities\Sale::latest()->paginate(5) as $item)
+                                    <tr>
+                                        <td>{{ $item->customer_name }}</td>
+                                        <td>
+                                            @if ($item->status == 'Completed')
+                                                <span class="badge badge-success">Completed</span>
+                                            @elseif($item->status == 'Pending')
+                                                <span class="badge badge-warning">Pending</span>
+                                            @else
+                                                <span class="badge badge-info">Shipped</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ format_currency($item->total_amount) }}</td>
+                                        <td>{{ $item->created_at->format('Y-m-d') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         @can('show_monthly_cashflow')
             {{-- <div class="row">
@@ -169,7 +196,7 @@
                 </div>
             </div> --}}
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-sm-12">
                     <div class="card border-0 shadow-sm">
                         <div class="card-header">
@@ -195,16 +222,28 @@
                                         $months = [];
 
                                         for ($month = 1; $month <= 12; $month++) {
-                                            $monthSales = Modules\Sale\Entities\SaleDetails::whereYear('created_at', '=', $currentYear)
+                                            $monthSales = Modules\Sale\Entities\SaleDetails::whereYear(
+                                                'created_at',
+                                                '=',
+                                                $currentYear,
+                                            )
                                                 ->whereMonth('created_at', '=', $month)
                                                 ->get();
 
                                             $monthTotalQuantity = $monthSales->sum('quantity');
                                             $monthSubTotal = $monthSales->sum('sub_total');
-                                            $monthUnpaid = Modules\Sale\Entities\Sale::whereYear('created_at', '=', $currentYear)
+                                            $monthUnpaid = Modules\Sale\Entities\Sale::whereYear(
+                                                'created_at',
+                                                '=',
+                                                $currentYear,
+                                            )
                                                 ->whereMonth('created_at', '=', $month)
                                                 ->sum('due_amount');
-                                            $monthExpenses = Modules\Expense\Entities\Expense::whereYear('created_at', '=', $currentYear)
+                                            $monthExpenses = Modules\Expense\Entities\Expense::whereYear(
+                                                'created_at',
+                                                '=',
+                                                $currentYear,
+                                            )
                                                 ->whereMonth('created_at', '=', $month)
                                                 ->sum('amount');
 
@@ -231,7 +270,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         @endcan
     </div>
