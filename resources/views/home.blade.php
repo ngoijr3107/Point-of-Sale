@@ -128,14 +128,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (Modules\Sale\Entities\SaleDetails::latest()->paginate(5) as $item)
-                                    <tr>
-                                        <td>{{ $item->product_name }}</td>
-                                        <td>{{ $item->quantity }}</td>
-                                        <td>{{ format_currency($item->sub_total) }}</td>
-                                        <td>{{ $item->created_at->format('Y-m-d') }}</td>
-                                    </tr>
-                                @endforeach
+                                @foreach (Modules\Sale\Entities\SaleDetails::whereMonth('created_at', '=', date('m'))->orderBy('quantity', 'DESC')->get() as $item)
+                                <tr>
+                                    <td>{{ $item->product_name }}</td>
+                                    <td>{{ $item->quantity }}</td>
+                                    <td>{{ format_currency($item->sub_total) }}</td>
+                                    <td>{{ $item->created_at->format('Y-m-d') }}</td>
+                                </tr>
+                            @endforeach                            
                             </tbody>
                         </table>
                     </div>
